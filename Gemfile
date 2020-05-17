@@ -26,6 +26,7 @@ group :development, :test do
   gem 'launchy'
   gem 'shoulda-matchers'
   gem 'selenium-webdriver'
+  gem 'rubocop'
 end
 
 group :development do

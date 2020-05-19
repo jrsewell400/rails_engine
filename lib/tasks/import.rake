@@ -15,9 +15,18 @@ desc "clear and import CSV data"
     csv_hash.each do |csv, model|
       model.destroy_all
       CSV.foreach(csv, headers: true) do |row|
-        model.create!(row.to_h)
+        if csv.include?('item')
+          resource = model.new(row.to_h)
+          resource.unit_price = (resource.unit_price / 100)
+          resource.save
+        else
+          model.create!(row.to_h)
+        end
       end
       puts "CSV file - #{model} - loaded successfully!"
+      ActiveRecord::Base.connection.tables.each do |t|
+        ActiveRecord::Base.connection.reset_pk_sequence!(t)
+      end
     end
     
     puts "CSV file load complete."

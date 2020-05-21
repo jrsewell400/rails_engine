@@ -24,10 +24,11 @@ desc "clear and import CSV data"
         end
       end
       puts "CSV file - #{model} - loaded successfully!"
-      ActiveRecord::Base.connection.tables.each do |t|
-        ActiveRecord::Base.connection.reset_pk_sequence!(t)
-      end
     end
-    
     puts "CSV file load complete."
+    puts "Resetting primary key sequence."
+    ActiveRecord::Base.connection.tables.each do |t|
+      ActiveRecord::Base.connection.reset_pk_sequence!(t)
+    end
+    puts "Rake task complete!"
   end
